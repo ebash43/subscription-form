@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test</title>
+</head>
+<body>
+  <form id="form">
+    <input name="fullname" placeholder="Full Name" required><br>
+    <input name="contact" placeholder="Contact" required><br>
+    <input name="email" placeholder="Email" required><br>
+    <input name="address" placeholder="Address" required><br>
+    <input name="plan" placeholder="Plan" required><br>
+    <button>Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+
+      try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbzAwngdOEPJjIRabi-TOEpwwlwPI5DxAx_1bwIafwi9vhDZ8WQyNA7287fhRebKZ5zJJQ/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        console.log('Server response:', result);
+        alert(result.result === 'success' ? 'Submitted!' : 'Error: ' + result.message);
+      } catch (error) {
+        console.error('Fetch error:', error);
+        alert('Error submitting form.');
+      }
+    });
+  </script>
+</body>
+</html>
